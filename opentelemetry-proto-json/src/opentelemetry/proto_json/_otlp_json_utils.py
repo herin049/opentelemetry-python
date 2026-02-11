@@ -63,22 +63,6 @@ def encode_repeated(
     return [map_fn(v) for v in values] if values else []
 
 
-def validate_type(
-    value: typing.Any,
-    expected_types: typing.Union[type, tuple[type, ...]],
-    field_name: str,
-) -> None:
-    """
-    Validate that a value is of the expected type(s).
-    Raises TypeError if validation fails.
-    """
-    if not isinstance(value, expected_types):
-        raise TypeError(
-            f"Field '{field_name}' expected {expected_types}, "
-            f"got {type(value).__name__}"
-        )
-
-
 def decode_hex(value: typing.Optional[str], field_name: str) -> bytes:
     """Decode hex string to bytes."""
     if not value:
@@ -151,3 +135,19 @@ def decode_repeated(
         return []
     validate_type(values, list, field_name)
     return [item_parser(v) for v in values]
+
+
+def validate_type(
+    value: typing.Any,
+    expected_types: typing.Union[type, tuple[type, ...]],
+    field_name: str,
+) -> None:
+    """
+    Validate that a value is of the expected type(s).
+    Raises TypeError if validation fails.
+    """
+    if not isinstance(value, expected_types):
+        raise TypeError(
+            f"Field '{field_name}' expected {expected_types}, "
+            f"got {type(value).__name__}"
+        )

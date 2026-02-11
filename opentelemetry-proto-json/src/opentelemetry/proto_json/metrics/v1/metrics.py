@@ -815,13 +815,13 @@ class HistogramDataPoint:
     start_time_unix_nano: typing.Optional[builtins.int] = 0
     time_unix_nano: typing.Optional[builtins.int] = 0
     count: typing.Optional[builtins.int] = 0
-    sum: typing.Optional[builtins.float] = None
+    sum: typing.Optional[builtins.float] = 0.0
     bucket_counts: builtins.list[builtins.int] = dataclasses.field(default_factory=builtins.list)
     explicit_bounds: builtins.list[builtins.float] = dataclasses.field(default_factory=builtins.list)
     exemplars: builtins.list[Exemplar] = dataclasses.field(default_factory=builtins.list)
     flags: typing.Optional[builtins.int] = 0
-    min: typing.Optional[builtins.float] = None
-    max: typing.Optional[builtins.float] = None
+    min: typing.Optional[builtins.float] = 0.0
+    max: typing.Optional[builtins.float] = 0.0
 
     def to_dict(self) -> builtins.dict[builtins.str, typing.Any]:
         """
@@ -997,15 +997,15 @@ class ExponentialHistogramDataPoint:
     start_time_unix_nano: typing.Optional[builtins.int] = 0
     time_unix_nano: typing.Optional[builtins.int] = 0
     count: typing.Optional[builtins.int] = 0
-    sum: typing.Optional[builtins.float] = None
+    sum: typing.Optional[builtins.float] = 0.0
     scale: typing.Optional[builtins.int] = 0
     zero_count: typing.Optional[builtins.int] = 0
     positive: typing.Optional[ExponentialHistogramDataPoint.Buckets] = None
     negative: typing.Optional[ExponentialHistogramDataPoint.Buckets] = None
     flags: typing.Optional[builtins.int] = 0
     exemplars: builtins.list[Exemplar] = dataclasses.field(default_factory=builtins.list)
-    min: typing.Optional[builtins.float] = None
-    max: typing.Optional[builtins.float] = None
+    min: typing.Optional[builtins.float] = 0.0
+    max: typing.Optional[builtins.float] = 0.0
     zero_threshold: typing.Optional[builtins.float] = 0.0
 
     def to_dict(self) -> builtins.dict[builtins.str, typing.Any]:
