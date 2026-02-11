@@ -138,9 +138,9 @@ def decode_repeated(
 
 
 def validate_type(
-        value: typing.Any,
-        expected_types: typing.Union[type, tuple[type, ...]],
-        field_name: str,
+    value: typing.Any,
+    expected_types: typing.Union[type, tuple[type, ...]],
+    field_name: str,
 ) -> None:
     """
     Validate that a value is of the expected type(s).

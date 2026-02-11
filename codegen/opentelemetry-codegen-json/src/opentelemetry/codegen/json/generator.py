@@ -858,11 +858,7 @@ class OtlpJsonGenerator:
             return "dataclasses.field(default_factory=builtins.list)"
 
         # Optional fields, Message types, and oneof members default to None
-        if (
-            field_type.is_optional
-            or field_type.is_message
-            or field_info.is_oneof_member
-        ):
+        if field_type.is_message or field_info.is_oneof_member:
             return "None"
 
         # Enum types default to 0

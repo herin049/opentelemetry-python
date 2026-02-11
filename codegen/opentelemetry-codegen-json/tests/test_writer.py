@@ -102,7 +102,12 @@ def test_suite() -> None:
         ),
     ],
 )
-def test_class(name: str, bases: Optional[str], decorators: Optional[list[str]], expected: list[str]) -> None:
+def test_class(
+    name: str,
+    bases: Optional[str],
+    decorators: Optional[list[str]],
+    expected: list[str],
+) -> None:
     writer = CodeWriter()
     with writer.class_(name, bases=bases, decorators=decorators):
         pass
@@ -165,7 +170,13 @@ def test_enum() -> None:
         ),
     ],
 )
-def test_field(name: str, type_hint: str, default: Optional[Any], default_factory: Optional[Any], expected: list[str]) -> None:
+def test_field(
+    name: str,
+    type_hint: str,
+    default: Optional[Any],
+    default_factory: Optional[Any],
+    expected: list[str],
+) -> None:
     writer = CodeWriter()
     writer.field(
         name, type_hint, default=default, default_factory=default_factory
