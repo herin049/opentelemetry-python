@@ -101,9 +101,9 @@ class AnyValue:
         elif (_value := data.get("arrayValue")) is not None:
             _args["array_value"] = ArrayValue.from_dict(_value)
         elif (_value := data.get("doubleValue")) is not None:
-            _args["double_value"] = _utils.parse_float(_value, "double_value")
+            _args["double_value"] = _utils.decode_float(_value, "double_value")
         elif (_value := data.get("intValue")) is not None:
-            _args["int_value"] = _utils.parse_int64(_value, "int_value")
+            _args["int_value"] = _utils.decode_int64(_value, "int_value")
         elif (_value := data.get("boolValue")) is not None:
             _utils.validate_type(_value, builtins.bool, "bool_value")
             _args["bool_value"] = _value
@@ -145,7 +145,7 @@ class ArrayValue:
         """
         _result = {}
         if self.values:
-            _result["values"] = _utils.serialize_repeated(self.values, lambda _v: _v.to_dict())
+            _result["values"] = _utils.encode_repeated(self.values, lambda _v: _v.to_dict())
         return _result
 
     def to_json(self) -> builtins.str:
@@ -172,7 +172,7 @@ class ArrayValue:
         _args = {}
 
         if (_value := data.get("values")) is not None:
-            _args["values"] = _utils.deserialize_repeated(_value, lambda _v: AnyValue.from_dict(_v), "values")
+            _args["values"] = _utils.decode_repeated(_value, lambda _v: AnyValue.from_dict(_v), "values")
 
         return cls(**_args)
 
@@ -208,7 +208,7 @@ class KeyValueList:
         """
         _result = {}
         if self.values:
-            _result["values"] = _utils.serialize_repeated(self.values, lambda _v: _v.to_dict())
+            _result["values"] = _utils.encode_repeated(self.values, lambda _v: _v.to_dict())
         return _result
 
     def to_json(self) -> builtins.str:
@@ -235,7 +235,7 @@ class KeyValueList:
         _args = {}
 
         if (_value := data.get("values")) is not None:
-            _args["values"] = _utils.deserialize_repeated(_value, lambda _v: KeyValue.from_dict(_v), "values")
+            _args["values"] = _utils.decode_repeated(_value, lambda _v: KeyValue.from_dict(_v), "values")
 
         return cls(**_args)
 
@@ -347,7 +347,7 @@ class InstrumentationScope:
         if self.version:
             _result["version"] = self.version
         if self.attributes:
-            _result["attributes"] = _utils.serialize_repeated(self.attributes, lambda _v: _v.to_dict())
+            _result["attributes"] = _utils.encode_repeated(self.attributes, lambda _v: _v.to_dict())
         if self.dropped_attributes_count:
             _result["droppedAttributesCount"] = self.dropped_attributes_count
         return _result
@@ -382,7 +382,7 @@ class InstrumentationScope:
             _utils.validate_type(_value, builtins.str, "version")
             _args["version"] = _value
         if (_value := data.get("attributes")) is not None:
-            _args["attributes"] = _utils.deserialize_repeated(_value, lambda _v: KeyValue.from_dict(_v), "attributes")
+            _args["attributes"] = _utils.decode_repeated(_value, lambda _v: KeyValue.from_dict(_v), "attributes")
         if (_value := data.get("droppedAttributesCount")) is not None:
             _utils.validate_type(_value, builtins.int, "dropped_attributes_count")
             _args["dropped_attributes_count"] = _value
@@ -463,9 +463,9 @@ class EntityRef:
             _utils.validate_type(_value, builtins.str, "type")
             _args["type"] = _value
         if (_value := data.get("idKeys")) is not None:
-            _args["id_keys"] = _utils.deserialize_repeated(_value, lambda _v: _v, "id_keys")
+            _args["id_keys"] = _utils.decode_repeated(_value, lambda _v: _v, "id_keys")
         if (_value := data.get("descriptionKeys")) is not None:
-            _args["description_keys"] = _utils.deserialize_repeated(_value, lambda _v: _v, "description_keys")
+            _args["description_keys"] = _utils.decode_repeated(_value, lambda _v: _v, "description_keys")
 
         return cls(**_args)
 

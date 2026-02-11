@@ -20,7 +20,7 @@ Installation
 Code Generation
 ---------------
 
-These files were generated automatically from code in opentelemetry-proto_.
+These files were generated automatically using the custom protoc plugin opentelemetry-codegen-json_ from code in opentelemetry-proto_.
 To regenerate the code, run ``../scripts/proto_codegen_json.sh``.
 
 To build against a new release or specific commit of opentelemetry-proto_,
@@ -28,8 +28,8 @@ update the ``PROTO_REPO_BRANCH_OR_COMMIT`` variable in
 ``../scripts/proto_codegen_json.sh``. Then run the script and commit the changes
 as well as any fixes needed in the OTLP exporter.
 
+.. _opentelemetry-codegen-json: https://github.com/open-telemetry/codegen/opentelemetry-codegen-json
 .. _opentelemetry-proto: https://github.com/open-telemetry/opentelemetry-proto
-
 
 References
 ----------

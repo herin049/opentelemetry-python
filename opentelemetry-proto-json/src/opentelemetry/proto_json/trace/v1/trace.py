@@ -64,7 +64,7 @@ class TracesData:
         """
         _result = {}
         if self.resource_spans:
-            _result["resourceSpans"] = _utils.serialize_repeated(self.resource_spans, lambda _v: _v.to_dict())
+            _result["resourceSpans"] = _utils.encode_repeated(self.resource_spans, lambda _v: _v.to_dict())
         return _result
 
     def to_json(self) -> builtins.str:
@@ -91,7 +91,7 @@ class TracesData:
         _args = {}
 
         if (_value := data.get("resourceSpans")) is not None:
-            _args["resource_spans"] = _utils.deserialize_repeated(_value, lambda _v: ResourceSpans.from_dict(_v), "resource_spans")
+            _args["resource_spans"] = _utils.decode_repeated(_value, lambda _v: ResourceSpans.from_dict(_v), "resource_spans")
 
         return cls(**_args)
 
@@ -131,7 +131,7 @@ class ResourceSpans:
         if self.resource:
             _result["resource"] = self.resource.to_dict()
         if self.scope_spans:
-            _result["scopeSpans"] = _utils.serialize_repeated(self.scope_spans, lambda _v: _v.to_dict())
+            _result["scopeSpans"] = _utils.encode_repeated(self.scope_spans, lambda _v: _v.to_dict())
         if self.schema_url:
             _result["schemaUrl"] = self.schema_url
         return _result
@@ -162,7 +162,7 @@ class ResourceSpans:
         if (_value := data.get("resource")) is not None:
             _args["resource"] = opentelemetry.proto_json.resource.v1.resource.Resource.from_dict(_value)
         if (_value := data.get("scopeSpans")) is not None:
-            _args["scope_spans"] = _utils.deserialize_repeated(_value, lambda _v: ScopeSpans.from_dict(_v), "scope_spans")
+            _args["scope_spans"] = _utils.decode_repeated(_value, lambda _v: ScopeSpans.from_dict(_v), "scope_spans")
         if (_value := data.get("schemaUrl")) is not None:
             _utils.validate_type(_value, builtins.str, "schema_url")
             _args["schema_url"] = _value
@@ -205,7 +205,7 @@ class ScopeSpans:
         if self.scope:
             _result["scope"] = self.scope.to_dict()
         if self.spans:
-            _result["spans"] = _utils.serialize_repeated(self.spans, lambda _v: _v.to_dict())
+            _result["spans"] = _utils.encode_repeated(self.spans, lambda _v: _v.to_dict())
         if self.schema_url:
             _result["schemaUrl"] = self.schema_url
         return _result
@@ -236,7 +236,7 @@ class ScopeSpans:
         if (_value := data.get("scope")) is not None:
             _args["scope"] = opentelemetry.proto_json.common.v1.common.InstrumentationScope.from_dict(_value)
         if (_value := data.get("spans")) is not None:
-            _args["spans"] = _utils.deserialize_repeated(_value, lambda _v: Span.from_dict(_v), "spans")
+            _args["spans"] = _utils.decode_repeated(_value, lambda _v: Span.from_dict(_v), "spans")
         if (_value := data.get("schemaUrl")) is not None:
             _utils.validate_type(_value, builtins.str, "schema_url")
             _args["schema_url"] = _value
@@ -302,7 +302,7 @@ class Span:
             if self.name:
                 _result["name"] = self.name
             if self.attributes:
-                _result["attributes"] = _utils.serialize_repeated(self.attributes, lambda _v: _v.to_dict())
+                _result["attributes"] = _utils.encode_repeated(self.attributes, lambda _v: _v.to_dict())
             if self.dropped_attributes_count:
                 _result["droppedAttributesCount"] = self.dropped_attributes_count
             return _result
@@ -331,12 +331,12 @@ class Span:
             _args = {}
 
             if (_value := data.get("timeUnixNano")) is not None:
-                _args["time_unix_nano"] = _utils.parse_int64(_value, "time_unix_nano")
+                _args["time_unix_nano"] = _utils.decode_int64(_value, "time_unix_nano")
             if (_value := data.get("name")) is not None:
                 _utils.validate_type(_value, builtins.str, "name")
                 _args["name"] = _value
             if (_value := data.get("attributes")) is not None:
-                _args["attributes"] = _utils.deserialize_repeated(_value, lambda _v: opentelemetry.proto_json.common.v1.common.KeyValue.from_dict(_v), "attributes")
+                _args["attributes"] = _utils.decode_repeated(_value, lambda _v: opentelemetry.proto_json.common.v1.common.KeyValue.from_dict(_v), "attributes")
             if (_value := data.get("droppedAttributesCount")) is not None:
                 _utils.validate_type(_value, builtins.int, "dropped_attributes_count")
                 _args["dropped_attributes_count"] = _value
@@ -385,7 +385,7 @@ class Span:
             if self.trace_state:
                 _result["traceState"] = self.trace_state
             if self.attributes:
-                _result["attributes"] = _utils.serialize_repeated(self.attributes, lambda _v: _v.to_dict())
+                _result["attributes"] = _utils.encode_repeated(self.attributes, lambda _v: _v.to_dict())
             if self.dropped_attributes_count:
                 _result["droppedAttributesCount"] = self.dropped_attributes_count
             if self.flags:
@@ -423,7 +423,7 @@ class Span:
                 _utils.validate_type(_value, builtins.str, "trace_state")
                 _args["trace_state"] = _value
             if (_value := data.get("attributes")) is not None:
-                _args["attributes"] = _utils.deserialize_repeated(_value, lambda _v: opentelemetry.proto_json.common.v1.common.KeyValue.from_dict(_v), "attributes")
+                _args["attributes"] = _utils.decode_repeated(_value, lambda _v: opentelemetry.proto_json.common.v1.common.KeyValue.from_dict(_v), "attributes")
             if (_value := data.get("droppedAttributesCount")) is not None:
                 _utils.validate_type(_value, builtins.int, "dropped_attributes_count")
                 _args["dropped_attributes_count"] = _value
@@ -490,15 +490,15 @@ class Span:
         if self.end_time_unix_nano:
             _result["endTimeUnixNano"] = _utils.encode_int64(self.end_time_unix_nano)
         if self.attributes:
-            _result["attributes"] = _utils.serialize_repeated(self.attributes, lambda _v: _v.to_dict())
+            _result["attributes"] = _utils.encode_repeated(self.attributes, lambda _v: _v.to_dict())
         if self.dropped_attributes_count:
             _result["droppedAttributesCount"] = self.dropped_attributes_count
         if self.events:
-            _result["events"] = _utils.serialize_repeated(self.events, lambda _v: _v.to_dict())
+            _result["events"] = _utils.encode_repeated(self.events, lambda _v: _v.to_dict())
         if self.dropped_events_count:
             _result["droppedEventsCount"] = self.dropped_events_count
         if self.links:
-            _result["links"] = _utils.serialize_repeated(self.links, lambda _v: _v.to_dict())
+            _result["links"] = _utils.encode_repeated(self.links, lambda _v: _v.to_dict())
         if self.dropped_links_count:
             _result["droppedLinksCount"] = self.dropped_links_count
         if self.status:
@@ -547,21 +547,21 @@ class Span:
             _utils.validate_type(_value, builtins.int, "kind")
             _args["kind"] = Span.SpanKind(_value)
         if (_value := data.get("startTimeUnixNano")) is not None:
-            _args["start_time_unix_nano"] = _utils.parse_int64(_value, "start_time_unix_nano")
+            _args["start_time_unix_nano"] = _utils.decode_int64(_value, "start_time_unix_nano")
         if (_value := data.get("endTimeUnixNano")) is not None:
-            _args["end_time_unix_nano"] = _utils.parse_int64(_value, "end_time_unix_nano")
+            _args["end_time_unix_nano"] = _utils.decode_int64(_value, "end_time_unix_nano")
         if (_value := data.get("attributes")) is not None:
-            _args["attributes"] = _utils.deserialize_repeated(_value, lambda _v: opentelemetry.proto_json.common.v1.common.KeyValue.from_dict(_v), "attributes")
+            _args["attributes"] = _utils.decode_repeated(_value, lambda _v: opentelemetry.proto_json.common.v1.common.KeyValue.from_dict(_v), "attributes")
         if (_value := data.get("droppedAttributesCount")) is not None:
             _utils.validate_type(_value, builtins.int, "dropped_attributes_count")
             _args["dropped_attributes_count"] = _value
         if (_value := data.get("events")) is not None:
-            _args["events"] = _utils.deserialize_repeated(_value, lambda _v: Span.Event.from_dict(_v), "events")
+            _args["events"] = _utils.decode_repeated(_value, lambda _v: Span.Event.from_dict(_v), "events")
         if (_value := data.get("droppedEventsCount")) is not None:
             _utils.validate_type(_value, builtins.int, "dropped_events_count")
             _args["dropped_events_count"] = _value
         if (_value := data.get("links")) is not None:
-            _args["links"] = _utils.deserialize_repeated(_value, lambda _v: Span.Link.from_dict(_v), "links")
+            _args["links"] = _utils.decode_repeated(_value, lambda _v: Span.Link.from_dict(_v), "links")
         if (_value := data.get("droppedLinksCount")) is not None:
             _utils.validate_type(_value, builtins.int, "dropped_links_count")
             _args["dropped_links_count"] = _value

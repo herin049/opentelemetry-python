@@ -94,7 +94,7 @@ class LogsData:
         """
         _result = {}
         if self.resource_logs:
-            _result["resourceLogs"] = _utils.serialize_repeated(self.resource_logs, lambda _v: _v.to_dict())
+            _result["resourceLogs"] = _utils.encode_repeated(self.resource_logs, lambda _v: _v.to_dict())
         return _result
 
     def to_json(self) -> builtins.str:
@@ -121,7 +121,7 @@ class LogsData:
         _args = {}
 
         if (_value := data.get("resourceLogs")) is not None:
-            _args["resource_logs"] = _utils.deserialize_repeated(_value, lambda _v: ResourceLogs.from_dict(_v), "resource_logs")
+            _args["resource_logs"] = _utils.decode_repeated(_value, lambda _v: ResourceLogs.from_dict(_v), "resource_logs")
 
         return cls(**_args)
 
@@ -161,7 +161,7 @@ class ResourceLogs:
         if self.resource:
             _result["resource"] = self.resource.to_dict()
         if self.scope_logs:
-            _result["scopeLogs"] = _utils.serialize_repeated(self.scope_logs, lambda _v: _v.to_dict())
+            _result["scopeLogs"] = _utils.encode_repeated(self.scope_logs, lambda _v: _v.to_dict())
         if self.schema_url:
             _result["schemaUrl"] = self.schema_url
         return _result
@@ -192,7 +192,7 @@ class ResourceLogs:
         if (_value := data.get("resource")) is not None:
             _args["resource"] = opentelemetry.proto_json.resource.v1.resource.Resource.from_dict(_value)
         if (_value := data.get("scopeLogs")) is not None:
-            _args["scope_logs"] = _utils.deserialize_repeated(_value, lambda _v: ScopeLogs.from_dict(_v), "scope_logs")
+            _args["scope_logs"] = _utils.decode_repeated(_value, lambda _v: ScopeLogs.from_dict(_v), "scope_logs")
         if (_value := data.get("schemaUrl")) is not None:
             _utils.validate_type(_value, builtins.str, "schema_url")
             _args["schema_url"] = _value
@@ -235,7 +235,7 @@ class ScopeLogs:
         if self.scope:
             _result["scope"] = self.scope.to_dict()
         if self.log_records:
-            _result["logRecords"] = _utils.serialize_repeated(self.log_records, lambda _v: _v.to_dict())
+            _result["logRecords"] = _utils.encode_repeated(self.log_records, lambda _v: _v.to_dict())
         if self.schema_url:
             _result["schemaUrl"] = self.schema_url
         return _result
@@ -266,7 +266,7 @@ class ScopeLogs:
         if (_value := data.get("scope")) is not None:
             _args["scope"] = opentelemetry.proto_json.common.v1.common.InstrumentationScope.from_dict(_value)
         if (_value := data.get("logRecords")) is not None:
-            _args["log_records"] = _utils.deserialize_repeated(_value, lambda _v: LogRecord.from_dict(_v), "log_records")
+            _args["log_records"] = _utils.decode_repeated(_value, lambda _v: LogRecord.from_dict(_v), "log_records")
         if (_value := data.get("schemaUrl")) is not None:
             _utils.validate_type(_value, builtins.str, "schema_url")
             _args["schema_url"] = _value
@@ -325,7 +325,7 @@ class LogRecord:
         if self.body:
             _result["body"] = self.body.to_dict()
         if self.attributes:
-            _result["attributes"] = _utils.serialize_repeated(self.attributes, lambda _v: _v.to_dict())
+            _result["attributes"] = _utils.encode_repeated(self.attributes, lambda _v: _v.to_dict())
         if self.dropped_attributes_count:
             _result["droppedAttributesCount"] = self.dropped_attributes_count
         if self.flags:
@@ -362,9 +362,9 @@ class LogRecord:
         _args = {}
 
         if (_value := data.get("timeUnixNano")) is not None:
-            _args["time_unix_nano"] = _utils.parse_int64(_value, "time_unix_nano")
+            _args["time_unix_nano"] = _utils.decode_int64(_value, "time_unix_nano")
         if (_value := data.get("observedTimeUnixNano")) is not None:
-            _args["observed_time_unix_nano"] = _utils.parse_int64(_value, "observed_time_unix_nano")
+            _args["observed_time_unix_nano"] = _utils.decode_int64(_value, "observed_time_unix_nano")
         if (_value := data.get("severityNumber")) is not None:
             _utils.validate_type(_value, builtins.int, "severity_number")
             _args["severity_number"] = SeverityNumber(_value)
@@ -374,7 +374,7 @@ class LogRecord:
         if (_value := data.get("body")) is not None:
             _args["body"] = opentelemetry.proto_json.common.v1.common.AnyValue.from_dict(_value)
         if (_value := data.get("attributes")) is not None:
-            _args["attributes"] = _utils.deserialize_repeated(_value, lambda _v: opentelemetry.proto_json.common.v1.common.KeyValue.from_dict(_v), "attributes")
+            _args["attributes"] = _utils.decode_repeated(_value, lambda _v: opentelemetry.proto_json.common.v1.common.KeyValue.from_dict(_v), "attributes")
         if (_value := data.get("droppedAttributesCount")) is not None:
             _utils.validate_type(_value, builtins.int, "dropped_attributes_count")
             _args["dropped_attributes_count"] = _value

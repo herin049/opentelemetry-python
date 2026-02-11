@@ -107,7 +107,7 @@ class MessageInfo:
 
 
 class DescriptorAnalyzer:
-    """Analyzes protobuf descriptors and builds structured representation."""
+    """Analyzes protobuf descriptors and builds a structured representation."""
 
     def __init__(self, request: plugin.CodeGeneratorRequest) -> None:
         self._request = request
@@ -119,10 +119,10 @@ class DescriptorAnalyzer:
         ] = {}  # Maps fully_qualified_name -> EnumInfo
         self._file_to_messages: dict[str, list[MessageInfo]] = defaultdict(
             list
-        )  # Maps proto file -> list of top-level MessageInfo
+        )  # Maps proto file -> list of top level MessageInfo
         self._file_to_enums: dict[str, list[EnumInfo]] = defaultdict(
             list
-        )  # Maps proto file -> list of top-level EnumInfo
+        )  # Maps proto file -> list of top level EnumInfo
         self._file_dependencies: dict[str, list[str]] = defaultdict(
             list
         )  # Maps file -> list of imported files

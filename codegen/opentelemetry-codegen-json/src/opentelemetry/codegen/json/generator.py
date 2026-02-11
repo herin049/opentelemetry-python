@@ -465,14 +465,13 @@ class OtlpJsonGenerator:
                             )
                         else:
                             writer.writeln(
-                                f'_result["{field.json_name}"] = _utils.serialize_repeated('
+                                f'_result["{field.json_name}"] = _utils.encode_repeated('
                                 f"self.{field.name}, lambda _v: {item_expr})"
                             )
                 else:
                     val_expr = self._get_serialization_expr(
                         field_type, field.name, f"self.{field.name}"
                     )
-                    default = get_default_value(field_type.proto_type)
                     check = f"self.{field.name}"
 
                     with writer.if_(check):
@@ -583,7 +582,7 @@ class OtlpJsonGenerator:
                             field_type, field.name, "_v", message
                         )
                         writer.writeln(
-                            f'_args["{field.name}"] = _utils.deserialize_repeated('
+                            f'_args["{field.name}"] = _utils.decode_repeated('
                             f'_value, lambda _v: {item_expr}, "{field.name}")'
                         )
                     else:
@@ -660,7 +659,7 @@ class OtlpJsonGenerator:
             )
         elif is_int64_type(field_type.proto_type):
             writer.writeln(
-                f'{target_dict}["{field.name}"] = _utils.parse_int64({var_name}, "{field.name}")'
+                f'{target_dict}["{field.name}"] = _utils.decode_int64({var_name}, "{field.name}")'
             )
         elif is_bytes_type(field_type.proto_type):
             writer.writeln(
@@ -671,7 +670,7 @@ class OtlpJsonGenerator:
             descriptor.FieldDescriptorProto.TYPE_DOUBLE,
         ):
             writer.writeln(
-                f'{target_dict}["{field.name}"] = _utils.parse_float({var_name}, "{field.name}")'
+                f'{target_dict}["{field.name}"] = _utils.decode_float({var_name}, "{field.name}")'
             )
         else:
             allowed_types = get_json_allowed_types(
@@ -699,14 +698,14 @@ class OtlpJsonGenerator:
         if is_hex_encoded_field(field_name):
             return f'_utils.decode_hex({var_name}, "{field_name}")'
         if is_int64_type(field_type.proto_type):
-            return f'_utils.parse_int64({var_name}, "{field_name}")'
+            return f'_utils.decode_int64({var_name}, "{field_name}")'
         if is_bytes_type(field_type.proto_type):
             return f'_utils.decode_base64({var_name}, "{field_name}")'
         if field_type.proto_type in (
             descriptor.FieldDescriptorProto.TYPE_FLOAT,
             descriptor.FieldDescriptorProto.TYPE_DOUBLE,
         ):
-            return f'_utils.parse_float({var_name}, "{field_name}")'
+            return f'_utils.decode_float({var_name}, "{field_name}")'
 
         return var_name
 
@@ -720,7 +719,11 @@ class OtlpJsonGenerator:
             writer: Code writer instance
             enum_info: Enum information
         """
-        with writer.enum(enum_info.name, enum_type="enum.IntEnum", decorators=("typing.final",)):
+        with writer.enum(
+            enum_info.name,
+            enum_type="enum.IntEnum",
+            decorators=("typing.final",),
+        ):
             writer.docstring(
                 [f"Generated from protobuf enum {enum_info.name}"]
             )

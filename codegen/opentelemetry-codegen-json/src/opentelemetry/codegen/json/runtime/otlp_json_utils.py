@@ -12,11 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+
 import base64
 import math
-from typing import Any, Callable, List, Optional, TypeVar, Union
+import typing
 
-T = TypeVar("T")
+T = typing.TypeVar("T")
 
 
 def encode_hex(value: bytes) -> str:
@@ -43,7 +45,7 @@ def encode_int64(value: int) -> str:
     return str(value)
 
 
-def encode_float(value: float) -> Union[float, str]:
+def encode_float(value: float) -> typing.Union[float, str]:
     """
     Encode float/double values.
     """
@@ -54,28 +56,14 @@ def encode_float(value: float) -> Union[float, str]:
     return value
 
 
-def serialize_repeated(
-    values: List[Any], map_fn: Callable[[Any], Any]
-) -> List[Any]:
+def encode_repeated(
+    values: list[typing.Any], map_fn: typing.Callable[[typing.Any], typing.Any]
+) -> list[typing.Any]:
     """Helper to serialize repeated fields."""
     return [map_fn(v) for v in values] if values else []
 
 
-def validate_type(
-    value: Any, expected_types: Union[type, tuple[type, ...]], field_name: str
-) -> None:
-    """
-    Validate that a value is of the expected type(s).
-    Raises TypeError if validation fails.
-    """
-    if not isinstance(value, expected_types):
-        raise TypeError(
-            f"Field '{field_name}' expected {expected_types}, "
-            f"got {type(value).__name__}"
-        )
-
-
-def decode_hex(value: Optional[str], field_name: str) -> bytes:
+def decode_hex(value: typing.Optional[str], field_name: str) -> bytes:
     """Decode hex string to bytes."""
     if not value:
         return b""
@@ -88,7 +76,7 @@ def decode_hex(value: Optional[str], field_name: str) -> bytes:
         ) from None
 
 
-def decode_base64(value: Optional[str], field_name: str) -> bytes:
+def decode_base64(value: typing.Optional[str], field_name: str) -> bytes:
     """Decode base64 string to bytes."""
     if not value:
         return b""
@@ -101,7 +89,9 @@ def decode_base64(value: Optional[str], field_name: str) -> bytes:
         ) from None
 
 
-def parse_int64(value: Optional[Union[int, str]], field_name: str) -> int:
+def decode_int64(
+    value: typing.Optional[typing.Union[int, str]], field_name: str
+) -> int:
     """Parse 64-bit integer from string or number."""
     if value is None:
         return 0
@@ -114,8 +104,8 @@ def parse_int64(value: Optional[Union[int, str]], field_name: str) -> int:
         ) from None
 
 
-def parse_float(
-    value: Optional[Union[float, int, str]], field_name: str
+def decode_float(
+    value: typing.Optional[typing.Union[float, int, str]], field_name: str
 ) -> float:
     """Parse float/double from number or special string."""
     if value is None:
@@ -135,13 +125,29 @@ def parse_float(
         ) from None
 
 
-def deserialize_repeated(
-    values: Optional[List[Any]],
-    item_parser: Callable[[Any], T],
+def decode_repeated(
+    values: typing.Optional[list[typing.Any]],
+    item_parser: typing.Callable[[typing.Any], T],
     field_name: str,
-) -> List[T]:
+) -> list[T]:
     """Helper to deserialize repeated fields."""
     if values is None:
         return []
     validate_type(values, list, field_name)
     return [item_parser(v) for v in values]
+
+
+def validate_type(
+        value: typing.Any,
+        expected_types: typing.Union[type, tuple[type, ...]],
+        field_name: str,
+) -> None:
+    """
+    Validate that a value is of the expected type(s).
+    Raises TypeError if validation fails.
+    """
+    if not isinstance(value, expected_types):
+        raise TypeError(
+            f"Field '{field_name}' expected {expected_types}, "
+            f"got {type(value).__name__}"
+        )

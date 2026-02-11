@@ -11,5 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# type: ignore
 
-__version__ = "0.61b0.dev"
+from importlib.util import find_spec
+from unittest import TestCase
+
+
+class TestInstrumentor(TestCase):
+    def test_proto(self):
+        if find_spec("opentelemetry.proto_json") is None:
+            self.fail("opentelemetry-proto-json not installed")
